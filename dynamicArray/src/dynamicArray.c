@@ -1,12 +1,13 @@
-//B. Frazier 3/17/24
+// B. Frazier 3/17/24
 
-#include "./dynamicArray.h"
+#include "../include/dynamicArray.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #define CHUNK_SIZE 50
 
-struct listType{
+struct listType {
     char *string;
     int size;
     int buffSize;
@@ -18,7 +19,7 @@ list createList(void) {
     output->string[0] = '\0';
     output->size = 0;
     output->buffSize = 50;
-    return(output);
+    return (output);
 }
 
 void expandList(list *expandee) {
@@ -30,8 +31,8 @@ void expandList(list *expandee) {
 }
 
 void listAppendList(list *dest, list source) {
-    if(source) {
-        while((*dest)->buffSize < ((*dest)->size + source->size + 1)){
+    if (source) {
+        while ((*dest)->buffSize < ((*dest)->size + source->size + 1)) {
             expandList(dest);
         }
         strcat((*dest)->string, source->string);
@@ -39,35 +40,35 @@ void listAppendList(list *dest, list source) {
     }
 }
 
-void listAppendString(list* dest, char* source){
-    while(((strlen(source) + (*dest)->size) + 1) > (*dest)->buffSize) {
+void listAppendString(list *dest, char *source) {
+    while (((strlen(source) + (*dest)->size) + 1) > (*dest)->buffSize) {
         expandList(dest);
     }
     strcat((*dest)->string, source);
     (*dest)->size = ((*dest)->size + strlen(source));
 }
 
-void prependString(list* dest, char* source) {
-    while( ((strlen(source) + (*dest)->size) + 1) > (*dest)->buffSize) {
+void prependString(list *dest, char *source) {
+    while (((strlen(source) + (*dest)->size) + 1) > (*dest)->buffSize) {
         expandList(dest);
     }
-    snprintf((*dest)->string, (strlen(source)+1), "%s%s", source, (*dest)->string); 
+    char *buffer = malloc(sizeof(char) * strlen((*dest)->string));
+    buffer[0] = '\0';
+    strcpy(buffer, (*dest)->string);
+    snprintf((*dest)->string, (strlen(source) + strlen(buffer) + 1), "%s%s",
+             source, buffer);
     (*dest)->size = ((*dest)->size + strlen(source));
 }
 
-char *listToString(list printee) {
-    return(printee->string);       
-}
+char *listToString(list printee) { return (printee->string); }
 
 list stringToList(char *string) {
     list output = createList();
     listAppendString(&output, string);
-    return(output);
+    return (output);
 }
 
-void printList(list printee){
-    printf("%s\n", listToString(printee));
-}
+void printList(list printee) { printf("%s\n", listToString(printee)); }
 
 void freeList(list goodbye) {
     free(goodbye->string);

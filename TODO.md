@@ -1,6 +1,6 @@
 # TODO For BeeLib
 
-+ fix list concatonation in dynamic array 
++ ~~fix list prepending in dynamic array~~ 
 + practice using snprintf instead of strcpy
 + make hash set 
 + make hash map 
