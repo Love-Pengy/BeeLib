@@ -1,15 +1,13 @@
+#include <stdio.h>
+
 #include "../include/dynamicArray.h"
 
 int main() {
     list tester = createList();
-    prependString(&tester, "test1");
-    printList(tester);
-    freeList(tester);
-    tester = createList();
-    prependString(&tester, "test2");
-    prependString(&tester, "test1");
-    listAppendList(&tester, tester);
+    listAppendString(&tester, "something");
     prependString(&tester, "\n");
-    prependString(&tester, "       ");
+    listAppendList(&tester, tester);
+    listAppendString(&tester, "       ");
+    listAppendString(&tester, "end");
     printList(tester);
 }

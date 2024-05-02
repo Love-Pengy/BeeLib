@@ -1,7 +1,8 @@
 # TODO For BeeLib
 
 + ~~fix list prepending in dynamic array~~ 
-+ practice using snprintf instead of strcpy
++ ~~fix seg fault for line 15 of prependTest.c~~
++ ~~practice using snprintf instead of strcpy and strcat~~
 + make hash set 
 + make hash map 
 + move doubly linked list from WColumn
