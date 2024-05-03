@@ -6,15 +6,15 @@
 
 // max size would be 0 to k - 1
 int HASH_CONSTANT = 101;
+#define MAX_SIZE 100
 
 struct hashType {
-    void** values;
+    int* values;
 };
-typedef struct hashType* hashTable;
 
-hashTable createHashTable(void) {
+hashTable createHT(void) {
     hashTable meow = malloc(sizeof(struct hashType));
-    meow->length = 0;
+    meow->values = malloc(sizeof(int) * MAX_SIZE);
     return (meow);
 }
 
@@ -32,8 +32,26 @@ int hashKey(char* key) {
     return (keyVal % HASH_CONSTANT);
 }
 
-void addElement(hashTable* table, char* key, void* value) {
-    table->values[hashKey(key)] = malloc(sizeof(value));
-    table->values[hashKey(key)] = value;
-    table->length++;
+void addElementHT(hashTable* table, char* key, int value) {
+    (*table)->values[hashKey(key)] = value;
+}
+
+void removeElementHT(hashTable* table, char* key) {
+    (*table)->values[hashKey(key)] = 0;
+}
+
+int findValueHT(hashTable table, char* key) {
+    return (table->values[hashKey(key)]);
+}
+
+void printHT(hashTable table) {
+    for (int i = 0; i < MAX_SIZE; i++) {
+        if (i == 0) {
+            printf("{ %d, ", table->values[i]);
+        } else if (i == (MAX_SIZE - 1)) {
+            printf("%d }\n", table->values[i]);
+        } else {
+            printf("%d, ", table->values[i]);
+        }
+    }
 }
