@@ -4,21 +4,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../include/boardingPassExample.h"
+
 // max size would be 0 to k - 1
 int HASH_CONSTANT = 101;
 #define MAX_SIZE 100
 
+// example using border passes
 struct hashType {
-    int* values;
+    boardingPass* passes;
 };
 
 hashTable createHT(void) {
     hashTable meow = malloc(sizeof(struct hashType));
-    meow->values = malloc(sizeof(int) * MAX_SIZE);
+    meow->passes = malloc(sizeof(boardingPass) * MAX_SIZE);
+    for (int i = 0; i < MAX_SIZE; i++) {
+        meow->passes[i] = NULL;
+    }
     return (meow);
 }
 
-int stringToInt(char* string) {
+int asciiSum(char* string) {
     int val = 0;
     for (int i = 0; i < strlen(string); i++) {
         val += (int)string[i];
@@ -28,30 +34,34 @@ int stringToInt(char* string) {
 
 // hashes key and returns the index
 int hashKey(char* key) {
-    int keyVal = stringToInt(key);
+    int keyVal = asciiSum(key);
     return (keyVal % HASH_CONSTANT);
 }
 
-void addElementHT(hashTable* table, char* key, int value) {
-    (*table)->values[hashKey(key)] = value;
+void addElementHT(hashTable* table, char* key, boardingPass value) {
+    (*table)->passes[hashKey(key)] = value;
 }
 
 void removeElementHT(hashTable* table, char* key) {
-    (*table)->values[hashKey(key)] = 0;
+    (*table)->passes[hashKey(key)] = NULL;
 }
 
-int findValueHT(hashTable table, char* key) {
-    return (table->values[hashKey(key)]);
+boardingPass findValueHT(hashTable table, char* key) {
+    return (table->passes[hashKey(key)]);
 }
 
 void printHT(hashTable table) {
     for (int i = 0; i < MAX_SIZE; i++) {
         if (i == 0) {
-            printf("{ %d, ", table->values[i]);
-        } else if (i == (MAX_SIZE - 1)) {
-            printf("%d }\n", table->values[i]);
-        } else {
-            printf("%d, ", table->values[i]);
+            printf("{ %s, ", boardingPassToString(table->passes[i]));
+        }
+
+        else if (i == (MAX_SIZE - 1)) {
+            printf("%s }\n", boardingPassToString(table->passes[i]));
+        }
+
+        else {
+            printf("%s, ", boardingPassToString(table->passes[i]));
         }
     }
 }
