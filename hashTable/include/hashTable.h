@@ -1,3 +1,4 @@
+#pragma once
 #include "../include/boardingPassExample.h"
 typedef struct hashType* hashTable;
 
