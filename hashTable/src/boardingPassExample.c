@@ -35,6 +35,7 @@ char* boardingPassToString(boardingPass pass) {
     }
     char* buffer = malloc(
         sizeof(char) * (strlen(pass->firstName) + strlen(pass->lastName) + 7));
+
     snprintf(
         buffer, (strlen(pass->firstName) + strlen(pass->lastName) + 7 + 5),
         "{ %d, %s %s }", pass->idNum, pass->firstName, pass->lastName);

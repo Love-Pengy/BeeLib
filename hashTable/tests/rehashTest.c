@@ -13,8 +13,10 @@ int main() {
     addElementHT(&test, "key1", b1);
     addElementHT(&test, "key2", b2);
     addElementHT(&test, "key3", b3);
+    test = rehashHashTable(&test);
     addElementHT(&test, "key4", b4);
     addElementHT(&test, "key5", b5);
+    printHT(test);
     printf("%s\n", boardingPassToString(findValueHT(test, "key1")));
     printf("%s\n", boardingPassToString(findValueHT(test, "key2")));
     printf("%s\n", boardingPassToString(findValueHT(test, "key3")));
@@ -39,6 +41,7 @@ int main() {
     printf(
         "%s\n",
         boardingPassToString(findValueHT(test, "somethingthatisn'tinit:3")));
-
+    freeHashTable(&test);
+    printHT(test);
     return 0;
 }
