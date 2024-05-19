@@ -47,16 +47,29 @@ void copyHashTable(hashTable* dest, hashTable* src) {
 void rehashHashTable(hashTable* table) {
     int oldMax = (*table)->size;
     int newSize = oldMax * 2;
+    // boardingPass* oldPasses = malloc(sizeof((*table)->passes));
+    // char** oldKeys = malloc(sizeof((*table)->keys));
     hashTable oldHT = malloc(sizeof(struct hashType));
     oldHT->passes = malloc(sizeof(boardingPass) * oldMax);
     oldHT->keys = malloc(sizeof(char*) * oldMax);
     for (int i = 0; i < initialSize; i++) {
         oldHT->passes[i] = NULL;
+        // oldHT->keys = malloc(sizeof(NULL) + 1);
         oldHT->keys[i] = NULL;
     }
     oldHT->size = oldMax;
 
     copyHashTable(&oldHT, table);
+
+    /*
+        for (int i = 0; i < oldMax; i++) {
+            oldPasses[i] = malloc(sizeof((*table)->passes[i]));
+            memcpy(oldPasses + i, (*table)->passes[i],
+       sizeof((*table)->passes[i])); oldKeys[i] =
+       malloc(sizeof((*table)->keys[i])); memcpy(oldKeys + i, (*table)->keys[i],
+       sizeof((*table)->keys[i]));
+        }
+    */
 
     (*table)->passes = malloc(sizeof(boardingPass) * newSize);
     (*table)->keys = malloc(sizeof(char*) * newSize);
@@ -124,30 +137,6 @@ int hashKey(char* key, int numCollisions, int tableSize) {
     return (hash + numCollisions);
 }
 
-void updateValueHT(hashTable* table, char* key, boardingPass value) {
-    int numCollisions = 0;
-    bool found = false;
-    while ((*table)->passes[hashKey(key, numCollisions, (*table)->size)] !=
-           NULL) {
-        if ((!strcmp(
-                key,
-                (*table)->keys[hashKey(key, numCollisions, (*table)->size)]))) {
-            found = true;
-            break;
-        }
-        else if (
-            ((*table)->keys[numCollisions] != NULL) &&
-            (numCollisions == ((*table)->size - 1))) {
-            break;
-        }
-        numCollisions++;
-    }
-
-    if (found) {
-        (*table)->passes[hashKey(key, numCollisions, (*table)->size)] = value;
-    }
-}
-
 void addElementHT(hashTable* table, char* key, boardingPass value) {
     int numCollisions = 0;
     bool notFull = true;
@@ -176,7 +165,6 @@ void addElementHT(hashTable* table, char* key, boardingPass value) {
         }
     }
 }
-
 void removeElementHT(hashTable* table, char* key) {
     int numCollisions = 0;
 
