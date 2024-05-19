@@ -8,4 +8,4 @@ void addElementHT(hashTable*, char*, boardingPass);
 void removeElementHT(hashTable*, char*);
 boardingPass findValueHT(hashTable, char*);
 void printHT(hashTable);
-hashTable rehashHashTable(hashTable*);
+void rehashHashTable(hashTable*);

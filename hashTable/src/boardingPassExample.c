@@ -17,6 +17,21 @@ char* getFirstName(boardingPass pass) { return (pass->firstName); }
 
 char* getLastName(boardingPass pass) { return (pass->lastName); }
 
+// deep copy the boarding pass
+void copyBoardingPass(boardingPass* dest, boardingPass* src) {
+    if ((*src) == NULL) {
+        (*dest) = NULL;
+        return;
+    }
+
+    (*dest) = malloc(sizeof(struct passType));
+    (*dest)->idNum = (*src)->idNum;
+    (*dest)->firstName = malloc(sizeof(char) * (strlen((*src)->firstName) + 1));
+    (*dest)->firstName = strdup((*src)->firstName);
+    (*dest)->lastName = malloc(sizeof(char) * (strlen((*src)->lastName) + 1));
+    (*dest)->lastName = strdup((*src)->lastName);
+}
+
 boardingPass createBoardingPass(int id, char* first, char* last) {
     boardingPass output = malloc(sizeof(struct passType));
     output->firstName = malloc(sizeof(char) * strlen(first) + 1);

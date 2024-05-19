@@ -7,3 +7,4 @@ char* boardingPassToString(boardingPass);
 int getIdNum(boardingPass);
 char* getFirstName(boardingPass);
 char* getLastName(boardingPass);
+void copyBoardingPass(boardingPass*, boardingPass*);

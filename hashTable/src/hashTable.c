@@ -8,7 +8,7 @@
 #include "../include/boardingPassExample.h"
 
 #define CONST_MULTIPLIER 287987
-int initialSize = 3;
+int initialSize = 10;
 
 // example using border passes
 struct hashType {
@@ -26,22 +26,66 @@ void freeHashTable(hashTable* table) {
     (*table) = NULL;
 }
 
-hashTable rehashHashTable(hashTable* table) {
+// deep copy value in hash table into dest
+void copyHashTable(hashTable* dest, hashTable* src) {
+    if ((*src) == NULL) {
+        (*dest) = NULL;
+        return;
+    }
+    (*dest)->size = (*src)->size;
+    for (int i = 0; i < (*src)->size; i++) {
+        // if pass is null key must be null
+        if ((*src)->passes[i] == NULL) {
+            continue;
+        }
+        (*dest)->passes[i] = malloc(sizeof(struct hashType));
+        copyBoardingPass(&((*dest)->passes[i]), &((*src)->passes[i]));
+        (*dest)->keys[i] = strdup((*src)->keys[i]);
+    }
+}
+
+void rehashHashTable(hashTable* table) {
     int oldMax = (*table)->size;
     int newSize = oldMax * 2;
-    hashTable meow = malloc(sizeof(struct hashType));
-    meow->passes = malloc(sizeof(boardingPass) * newSize);
-    meow->keys = malloc(sizeof(char*) * newSize);
-    meow->size = newSize;
+    // boardingPass* oldPasses = malloc(sizeof((*table)->passes));
+    // char** oldKeys = malloc(sizeof((*table)->keys));
+    hashTable oldHT = malloc(sizeof(struct hashType));
+    oldHT->passes = malloc(sizeof(boardingPass) * oldMax);
+    oldHT->keys = malloc(sizeof(char*) * oldMax);
+    for (int i = 0; i < initialSize; i++) {
+        oldHT->passes[i] = NULL;
+        // oldHT->keys = malloc(sizeof(NULL) + 1);
+        oldHT->keys[i] = NULL;
+    }
+    oldHT->size = oldMax;
+
+    copyHashTable(&oldHT, table);
+
+    /*
+        for (int i = 0; i < oldMax; i++) {
+            oldPasses[i] = malloc(sizeof((*table)->passes[i]));
+            memcpy(oldPasses + i, (*table)->passes[i],
+       sizeof((*table)->passes[i])); oldKeys[i] =
+       malloc(sizeof((*table)->keys[i])); memcpy(oldKeys + i, (*table)->keys[i],
+       sizeof((*table)->keys[i]));
+        }
+    */
+
+    (*table)->passes = malloc(sizeof(boardingPass) * newSize);
+    (*table)->keys = malloc(sizeof(char*) * newSize);
+    (*table)->size = newSize;
     for (int i = 0; i < newSize; i++) {
-        meow->passes[i] = NULL;
-        meow->keys[i] = NULL;
+        (*table)->passes[i] = NULL;
+        (*table)->keys[i] = NULL;
     }
+
     for (int i = 0; i < oldMax; i++) {
-        addElementHT(&meow, (*table)->keys[i], (*table)->passes[i]);
+        if (oldHT->keys[i] != NULL) {
+            addElementHT(table, oldHT->keys[i], oldHT->passes[i]);
+        }
     }
-    // freeHashTable(table);
-    return (meow);
+
+    free(oldHT);
 }
 
 bool keyExists(hashTable table, char* key) {
@@ -67,7 +111,7 @@ hashTable createHT(void) {
     meow->keys = malloc(sizeof(char*) * initialSize);
     for (int i = 0; i < initialSize; i++) {
         meow->passes[i] = NULL;
-        meow->keys = malloc(sizeof(NULL) + 1);
+        // meow->keys[i] = malloc(sizeof(NULL) + 1);
         meow->keys[i] = NULL;
     }
     meow->size = initialSize;
@@ -150,7 +194,7 @@ void removeElementHT(hashTable* table, char* key) {
 boardingPass findValueHT(hashTable table, char* key) {
     int numCollisions = 0;
     bool found = false;
-    if (table == NULL) {
+    if ((table == NULL) || !(keyExists(table, key))) {
         return (NULL);
     }
     while (table->passes[hashKey(key, numCollisions, table->size)] != NULL) {

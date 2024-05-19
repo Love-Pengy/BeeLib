@@ -13,7 +13,8 @@ int main() {
     addElementHT(&test, "key1", b1);
     addElementHT(&test, "key2", b2);
     addElementHT(&test, "key3", b3);
-    test = rehashHashTable(&test);
+    printHT(test);
+    rehashHashTable(&test);
     addElementHT(&test, "key4", b4);
     addElementHT(&test, "key5", b5);
     printHT(test);
