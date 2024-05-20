@@ -8,3 +8,4 @@ void removeElementHM(hashMap*, char*);
 void addElementHM(hashMap*, char*, boardingPass);
 boardingPass findValueHM(hashMap, char*);
 void printHM(hashMap);
+void freeHM(hashMap*);

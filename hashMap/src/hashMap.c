@@ -1,5 +1,6 @@
 #include "../include/hashMap.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "../lib/include/hashTable.h"
@@ -11,25 +12,48 @@ struct hashMapType {
 hashMap createHashMap(void) {
     hashMap output = malloc(sizeof(struct hashMapType));
     output->table = createHT();
-    // output->table = input;
     return (output);
 }
 
 void addElementHM(hashMap* map, char* key, boardingPass value) {
-    if (!findValueHT((*map)->table, key)) {
-        addElementHT(&((*map)->table), key, value);
+    if ((*map) == NULL) {
     }
     else {
-        updateValueHT(&((*map)->table), key, value);
+        if (!findValueHT((*map)->table, key)) {
+            addElementHT(&((*map)->table), key, value);
+        }
+        else {
+            updateValueHT(&((*map)->table), key, value);
+        }
     }
 }
 
 void removeElementHM(hashMap* map, char* key) {
-    removeElementHT(&((*map)->table), key);
+    if ((*map) == NULL) {
+    }
+    else {
+        removeElementHT(&((*map)->table), key);
+    }
 }
 
 boardingPass findValueHM(hashMap map, char* key) {
+    if (map == NULL) {
+        return (NULL);
+    }
     return (findValueHT((map)->table, key));
 }
 
-void printHM(hashMap map) { printHT(map->table); }
+void printHM(hashMap map) {
+    if (map == NULL) {
+        printf("{ EMPTY }\n");
+    }
+    else {
+        printHT(map->table);
+    }
+}
+
+void freeHM(hashMap* map) {
+    freeHashTable(&((*map)->table));
+    free(*map);
+    (*map) = NULL;
+}
