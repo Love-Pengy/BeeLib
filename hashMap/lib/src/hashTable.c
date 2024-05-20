@@ -17,6 +17,14 @@ struct hashType {
     int size;
 };
 
+void updateValueHT(hashTable* table, char* key, boardingPass value) {
+    for (int i = 0; i < (*table)->size; i++) {
+        if (!strcmp((*table)->keys[i], key)) {
+            (*table)->passes[i] = value;
+        }
+    }
+}
+
 void freeHashTable(hashTable* table) {
     for (int i = 0; i < (*table)->size; i++) {
         free((*table)->passes[i]);

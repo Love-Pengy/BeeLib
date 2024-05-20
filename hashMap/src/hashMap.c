@@ -1,4 +1,4 @@
-#include "hashMap.h"
+#include "../include/hashMap.h"
 
 #include <stdlib.h>
 
@@ -8,9 +8,10 @@ struct hashMapType {
     hashTable table;
 };
 
-hashMap createHashMap(hashTable input) {
+hashMap createHashMap(void) {
     hashMap output = malloc(sizeof(struct hashMapType));
-    output->table = input;
+    output->table = createHT();
+    // output->table = input;
     return (output);
 }
 
@@ -30,3 +31,5 @@ void removeElementHM(hashMap* map, char* key) {
 boardingPass findValueHM(hashMap map, char* key) {
     return (findValueHT((map)->table, key));
 }
+
+void printHM(hashMap map) { printHT(map->table); }
