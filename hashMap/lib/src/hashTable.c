@@ -19,8 +19,12 @@ struct hashType {
 
 void updateValueHT(hashTable* table, char* key, boardingPass value) {
     for (int i = 0; i < (*table)->size; i++) {
+        if ((*table)->keys[i] == NULL) {
+            continue;
+        }
         if (!strcmp((*table)->keys[i], key)) {
             (*table)->passes[i] = value;
+            break;
         }
     }
 }
@@ -55,29 +59,16 @@ void copyHashTable(hashTable* dest, hashTable* src) {
 void rehashHashTable(hashTable* table) {
     int oldMax = (*table)->size;
     int newSize = oldMax * 2;
-    // boardingPass* oldPasses = malloc(sizeof((*table)->passes));
-    // char** oldKeys = malloc(sizeof((*table)->keys));
     hashTable oldHT = malloc(sizeof(struct hashType));
     oldHT->passes = malloc(sizeof(boardingPass) * oldMax);
     oldHT->keys = malloc(sizeof(char*) * oldMax);
     for (int i = 0; i < initialSize; i++) {
         oldHT->passes[i] = NULL;
-        // oldHT->keys = malloc(sizeof(NULL) + 1);
         oldHT->keys[i] = NULL;
     }
     oldHT->size = oldMax;
 
     copyHashTable(&oldHT, table);
-
-    /*
-        for (int i = 0; i < oldMax; i++) {
-            oldPasses[i] = malloc(sizeof((*table)->passes[i]));
-            memcpy(oldPasses + i, (*table)->passes[i],
-       sizeof((*table)->passes[i])); oldKeys[i] =
-       malloc(sizeof((*table)->keys[i])); memcpy(oldKeys + i, (*table)->keys[i],
-       sizeof((*table)->keys[i]));
-        }
-    */
 
     (*table)->passes = malloc(sizeof(boardingPass) * newSize);
     (*table)->keys = malloc(sizeof(char*) * newSize);
@@ -119,7 +110,6 @@ hashTable createHT(void) {
     meow->keys = malloc(sizeof(char*) * initialSize);
     for (int i = 0; i < initialSize; i++) {
         meow->passes[i] = NULL;
-        // meow->keys[i] = malloc(sizeof(NULL) + 1);
         meow->keys[i] = NULL;
     }
     meow->size = initialSize;

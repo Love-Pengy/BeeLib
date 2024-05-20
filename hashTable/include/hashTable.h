@@ -9,3 +9,4 @@ void removeElementHT(hashTable*, char*);
 boardingPass findValueHT(hashTable, char*);
 void printHT(hashTable);
 void rehashHashTable(hashTable*);
+void updateValueHT(hashTable*, char*, boardingPass);

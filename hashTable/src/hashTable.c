@@ -98,7 +98,6 @@ hashTable createHT(void) {
     meow->keys = malloc(sizeof(char*) * initialSize);
     for (int i = 0; i < initialSize; i++) {
         meow->passes[i] = NULL;
-        // meow->keys[i] = malloc(sizeof(NULL) + 1);
         meow->keys[i] = NULL;
     }
     meow->size = initialSize;
@@ -125,26 +124,14 @@ int hashKey(char* key, int numCollisions, int tableSize) {
 }
 
 void updateValueHT(hashTable* table, char* key, boardingPass value) {
-    int numCollisions = 0;
-    bool found = false;
-    while ((*table)->passes[hashKey(key, numCollisions, (*table)->size)] !=
-           NULL) {
-        if ((!strcmp(
-                key,
-                (*table)->keys[hashKey(key, numCollisions, (*table)->size)]))) {
-            found = true;
+    for (int i = 0; i < (*table)->size; i++) {
+        if ((*table)->keys[i] == NULL) {
+            continue;
+        }
+        if (!strcmp((*table)->keys[i], key)) {
+            (*table)->passes[i] = value;
             break;
         }
-        else if (
-            ((*table)->keys[numCollisions] != NULL) &&
-            (numCollisions == ((*table)->size - 1))) {
-            break;
-        }
-        numCollisions++;
-    }
-
-    if (found) {
-        (*table)->passes[hashKey(key, numCollisions, (*table)->size)] = value;
     }
 }
 
