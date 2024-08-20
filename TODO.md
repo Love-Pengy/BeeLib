@@ -21,3 +21,4 @@
 + move doubly linked list from WColumn
 + do singly linked list
 + do a queue
++ make a generator 
