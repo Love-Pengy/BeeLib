@@ -1,19 +1,32 @@
-#define LOG(s, data...) argFunc("%s (%d): %s", __FILE__, __LINE__, s, ##data)   
-void argFunc(char *formatString, ...) {
+#include "logging.h"
+#include <stdarg.h>
+#include <stdio.h>
+
+void logErr(char *file, int line, char *formatString, ...) {
   va_list list;
-  int d;
-  char c;
-  /*char *s;*/
-  /*long l;*/
-  /*long long ll;*/
-  /*float f; */
   va_start(list, formatString);
-  char test;
-  char buff[8192];
-  vsnprintf(buff, 8192, formatString, list);
-  /*printf("WRITTEN: %d\n",d); */
-  printf("%s\n", buff);
-  /*printf("%p\n", __builtin_return_address(0));*/
+  char buff[4096];
+  vsnprintf(buff, 4096, formatString, list);
+  fprintf(stderr, "%s (%d): %s\n", file, line, buff);
   va_end(list);
 }
 
+void logWarn(char *file, int line, char *formatString, ...) {
+  va_list list;
+  va_start(list, formatString);
+  char buff[4096];
+  vsnprintf(buff, 4096, formatString, list);
+  fprintf(stdout, "[WARNING]: %s\n", buff);
+  va_end(list);
+}
+
+void fileLog(char* file, int line, char *formatString, ...) {
+  va_list list;
+  va_start(list, formatString);
+  char buff[4096];
+  vsnprintf(buff, 4096, formatString, list);
+  FILE *fptr = fopen(LOGFILE, "a");
+  fprintf(fptr, "%s\n", buff);
+  fclose(fptr);
+  va_end(list);
+}
