@@ -43,14 +43,14 @@ void appendToLList_int(node head, void *data) {
 void appendToLList_string(node head, void *data) {
   if (head == NULL || head->unionType == UNINITIALIZED) {
     head->unionType = STRING;
-    head->sData = malloc(sizeof(char) * (strlen(*(char **)data) + 1));
-    strncpy(head->sData, *(char **)data, strlen(*(char **)data));
+    head->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
+    strncpy(head->sData, (char *)data, strlen((char *)data));
     return;
   }
   node addition = createLListNode();
   addition->unionType = STRING;
-  addition->sData = malloc(sizeof(char) * (strlen(*(char **)data) + 1));
-  strncpy(addition->sData, *(char **)data, strlen(*(char **)data));
+  addition->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
+  strncpy(addition->sData, (char *)data, strlen((char *)data));
   node ptr = head;
   while (ptr->next != NULL) {
     ptr = ptr->next;
@@ -142,14 +142,14 @@ void prependToLList_int(node *head, void *data) {
 void prependToLList_string(node *head, void *data) {
   if ((*head) == NULL || (*head)->unionType == UNINITIALIZED) {
     (*head)->unionType = STRING;
-    (*head)->sData = malloc(sizeof(char) * (strlen(*(char **)data) + 1));
-    strncpy((*head)->sData, *(char **)data, strlen(*(char **)data));
+    (*head)->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
+    strncpy((*head)->sData, (char *)data, strlen((char *)data));
     return;
   }
   node output = createLListNode();
   output->unionType = STRING;
-  output->sData = malloc(sizeof(char) * (strlen(*(char **)data) + 1));
-  strncpy(output->sData, *(char **)data, strlen(*(char **)data));
+  output->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
+  strncpy(output->sData, (char *)data, strlen((char *)data));
   output->next = (*head);
   (*head) = output;
 }
