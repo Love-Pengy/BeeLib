@@ -37,22 +37,20 @@ uint64_t getElapsedTimeUs(bench *benchParam) {
   if (!benchParam) {
     return (0);
   }
-  bench benchmarker = *benchParam;
-  return ((benchmarker.endTime.tv_sec * (uint64_t)1000000 +
-           benchmarker.endTime.tv_usec) -
-          (benchmarker.startTime.tv_sec * (uint64_t)1000000 +
-           benchmarker.startTime.tv_usec));
+  return ((benchParam->endTime.tv_sec * (uint64_t)1000000 +
+           benchParam->endTime.tv_usec) -
+          (benchParam->startTime.tv_sec * (uint64_t)1000000 +
+           benchParam->startTime.tv_usec));
 }
 
 uint64_t getElapsedTimeMs(bench *benchParam) {
   if (!benchParam) {
     return (0);
   }
-  bench benchmarker = *benchParam;
-  return (((benchmarker.endTime.tv_sec * (uint64_t)1000000 +
-           benchmarker.endTime.tv_usec) -
-          (benchmarker.startTime.tv_sec * (uint64_t)1000000 +
-           benchmarker.startTime.tv_usec))/1000);
+  return (((benchParam->endTime.tv_sec * (uint64_t)1000000 +
+           benchParam->endTime.tv_usec) -
+          (benchParam->startTime.tv_sec * (uint64_t)1000000 +
+           benchParam->startTime.tv_usec))/1000);
 }
 
 uint64_t getElapsedTimeS(bench *benchParam) {
@@ -66,6 +64,15 @@ uint64_t getElapsedTimeS(bench *benchParam) {
            benchmarker.startTime.tv_usec))/1000000);
 }
 
+uint64_t getElapsedTimeNs(bench * benchParam){
+  if (!benchParam) {
+    return (0);
+  }
+  return ((benchParam->endTime.tv_sec * (uint64_t)1E+9 +
+           (uint64_t)(benchParam->endTime.tv_usec * 1000) -
+          (benchParam->startTime.tv_sec * (uint64_t)1E+9 +
+           (uint64_t)(benchParam->startTime.tv_usec * 1000))));
+}
 
 void freeTimer(bench **timer) {
   free(*timer);

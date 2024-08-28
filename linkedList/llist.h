@@ -14,8 +14,8 @@ void appendToLList_double(node, void *);
 // TOOD: seperate const char and malloced char they interact wth void pointers
 // diff
 #define llistAppend(X, Y)                                                      \
-  _Generic((Y),                                                              \
-      char *: appendToLList_string((X), ((void *)Y)),                         \
+  _Generic((Y),                                                                \
+      char *: appendToLList_string((X), ((void *)Y)),                          \
       int: appendToLList_int((X), ((void *)&Y)),                               \
       float: appendToLList_float((X), ((void *)&Y)),                           \
       double: appendToLList_double((X), ((void *)&Y)),                         \
@@ -34,4 +34,6 @@ void prependToLList_double(node *, void *);
       double: prependToLList_double((&X), ((void *)&Y)),                       \
       default: fprintf(stderr, "Unknown Type Passed To Prepend\n"))
 
+
+void freeFirstNode(node);
 void freeLList(node);

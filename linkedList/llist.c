@@ -25,7 +25,7 @@ node createLListNode(void) {
 }
 
 void appendToLList_int(node head, void *data) {
-  if (head == NULL || head->unionType == UNINITIALIZED) {
+  if (head->unionType == UNINITIALIZED) {
     head->unionType = INTEGER;
     head->iData = *(int *)data;
     return;
@@ -33,6 +33,10 @@ void appendToLList_int(node head, void *data) {
   node addition = createLListNode();
   addition->unionType = INTEGER;
   addition->iData = *(int *)data;
+  if (head == NULL) {
+    head = addition;
+    return;
+  }
   node ptr = head;
   while (ptr->next != NULL) {
     ptr = ptr->next;
@@ -41,7 +45,7 @@ void appendToLList_int(node head, void *data) {
 }
 
 void appendToLList_string(node head, void *data) {
-  if (head == NULL || head->unionType == UNINITIALIZED) {
+  if (head->unionType == UNINITIALIZED) {
     head->unionType = STRING;
     head->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
     strncpy(head->sData, (char *)data, strlen((char *)data));
@@ -51,6 +55,10 @@ void appendToLList_string(node head, void *data) {
   addition->unionType = STRING;
   addition->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
   strncpy(addition->sData, (char *)data, strlen((char *)data));
+  if (head == NULL) {
+    head = addition;
+    return;
+  }
   node ptr = head;
   while (ptr->next != NULL) {
     ptr = ptr->next;
@@ -59,7 +67,7 @@ void appendToLList_string(node head, void *data) {
 }
 
 void appendToLList_float(node head, void *data) {
-  if (head == NULL || head->unionType == UNINITIALIZED) {
+  if (head->unionType == UNINITIALIZED) {
     head->unionType = FLOAT;
     head->fData = *(float *)data;
     return;
@@ -67,6 +75,10 @@ void appendToLList_float(node head, void *data) {
   node addition = createLListNode();
   addition->unionType = FLOAT;
   addition->fData = *(float *)data;
+  if (head == NULL) {
+    head = addition;
+    return;
+  }
   node ptr = head;
   while (ptr->next != NULL) {
     ptr = ptr->next;
@@ -75,7 +87,7 @@ void appendToLList_float(node head, void *data) {
 }
 
 void appendToLList_double(node head, void *data) {
-  if (head == NULL || head->unionType == UNINITIALIZED) {
+  if (head->unionType == UNINITIALIZED) {
     head->unionType = DOUBLE;
     head->dData = *(double *)data;
     return;
@@ -83,6 +95,10 @@ void appendToLList_double(node head, void *data) {
   node addition = createLListNode();
   addition->unionType = DOUBLE;
   addition->dData = *(double *)data;
+  if (head == NULL) {
+    head = addition;
+    return;
+  }
   node ptr = head;
   while (ptr->next != NULL) {
     ptr = ptr->next;
@@ -91,7 +107,7 @@ void appendToLList_double(node head, void *data) {
 }
 
 void printLList(node llist) {
-  if (llist == NULL) {
+  if (llist == NULL || llist->unionType == UNINITIALIZED) {
     printf("{ }\n");
     return;
   }
@@ -127,7 +143,7 @@ end:
 }
 
 void prependToLList_int(node *head, void *data) {
-  if ((*head) == NULL || (*head)->unionType == UNINITIALIZED) {
+  if ((*head)->unionType == UNINITIALIZED) {
     (*head)->unionType = INTEGER;
     (*head)->iData = *(int *)data;
     return;
@@ -135,12 +151,16 @@ void prependToLList_int(node *head, void *data) {
   node output = createLListNode();
   output->unionType = INTEGER;
   output->iData = *(int *)data;
+  if ((*head) == NULL) {
+    (*head) = output;
+    return;
+  }
   output->next = (*head);
   (*head) = output;
 }
 
 void prependToLList_string(node *head, void *data) {
-  if ((*head) == NULL || (*head)->unionType == UNINITIALIZED) {
+  if ((*head)->unionType == UNINITIALIZED) {
     (*head)->unionType = STRING;
     (*head)->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
     strncpy((*head)->sData, (char *)data, strlen((char *)data));
@@ -150,12 +170,16 @@ void prependToLList_string(node *head, void *data) {
   output->unionType = STRING;
   output->sData = malloc(sizeof(char) * (strlen((char *)data) + 1));
   strncpy(output->sData, (char *)data, strlen((char *)data));
+  if ((*head) == NULL) {
+    (*head) = output;
+    return;
+  }
   output->next = (*head);
   (*head) = output;
 }
 
 void prependToLList_float(node *head, void *data) {
-  if ((*head) == NULL || (*head)->unionType == UNINITIALIZED) {
+  if ((*head)->unionType == UNINITIALIZED) {
     (*head)->unionType = FLOAT;
     (*head)->fData = *(float *)data;
     return;
@@ -163,19 +187,27 @@ void prependToLList_float(node *head, void *data) {
   node output = createLListNode();
   output->unionType = FLOAT;
   output->fData = *(float *)data;
+  if ((*head) == NULL) {
+    (*head) = output;
+    return;
+  }
   output->next = (*head);
   (*head) = output;
 }
 
-void prependToLList_double(node *head, void *data){
-  if ((*head) == NULL || (*head)->unionType == UNINITIALIZED) {
+void prependToLList_double(node *head, void *data) {
+  if ((*head)->unionType == UNINITIALIZED) {
     (*head)->unionType = DOUBLE;
-    (*head)->dData = *(double*)data;
+    (*head)->dData = *(double *)data;
     return;
   }
   node output = createLListNode();
   output->unionType = DOUBLE;
-  output->dData = *(double*)data;
+  output->dData = *(double *)data;
+  if ((*head) == NULL) {
+    (*head) = output;
+    return;
+  }
   output->next = (*head);
   (*head) = output;
 }
@@ -194,4 +226,43 @@ void freeLList(node head) {
     free(freePtr->sData);
   free(freePtr);
   head = NULL;
+}
+
+void freeFirstNode(node head) {
+  if (!head) {
+    return;
+  }
+  node holdPtr = head->next;
+  node freePtr = head;
+  if (holdPtr == NULL) {
+    if (freePtr->unionType == STRING)
+      free(freePtr->sData);
+    free(freePtr);
+    freePtr = NULL;
+    return;
+  }
+  if (freePtr->unionType == STRING)
+    free(freePtr->sData);
+  free(freePtr);
+  head = holdPtr;
+}
+
+void popLList(node head) {
+  if(!head){
+    return;
+  }
+  node prev = NULL;
+  node target = head;
+  if(!(target->next)){
+    freeFirstNode(target);
+    return;
+  }
+  while(target->next){
+    prev = target;
+    target = target->next;
+  }
+  if (target->unionType == STRING)
+    free(target->sData);
+  free(target);
+  prev->next = NULL;
 }

@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include <stdint.h>
 #include <sys/time.h>
@@ -7,10 +7,10 @@ typedef struct timeObj {
   struct timeval endTime;
 } bench;
 
-bench* startTimer(void);
+bench *startTimer(void);
 void endTimer(bench *);
+uint64_t getElapsedTimeS(bench *);
 uint64_t getElapsedTimeMs(bench *);
 uint64_t getElapsedTimeUs(bench *);
-uint64_t getElapsedTimeS(bench *);
-void freeTimer(bench**);
-
+uint64_t getElapsedTimeNs(bench *);
+void freeTimer(bench **);
