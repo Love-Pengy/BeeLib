@@ -6,8 +6,7 @@ int main(void) {
   bench *tester = startTimer();
   sleep(1);
   endTimer(tester);
-  long micro = getElapsedTimeUs(tester);
-  long nano = getElapsedTimeNs(tester);
-  printf("%ld | %ld\n", micro, nano); 
+  getElapsedTimeUs_print(tester);
+  getElapsedTimeNs_print(tester);
   freeTimer(&tester);
 }
