@@ -25,5 +25,10 @@ A set of C snippets made for practice and quick reference
 [Logging](./logging/)
 - Straight forward implementation of a logging function with optional output to stderr
 
+[Malloc](./malloc/)
+- Super simple implementation of memory leak prevention counter using standard lib malloc
+
 [Tests](./tests/)
 - Other random tests I've done to understand C behavior
+
+
